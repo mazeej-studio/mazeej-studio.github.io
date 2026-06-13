@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mazeej Studio - معاينة مشروع</title>
+    
+    <!-- خط IBM Plex Sans Arabic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght=300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- أيقونات جوجل (النمط الدائري الفاخر) -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <style>
+        /* --- الأساسيات والتصفير --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+            background-color: #fcf8f2;
+            color: #1d1d1f;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .material-symbols-rounded {
+          font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+          font-size: 24px;
+          color: #1d1d1f;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          vertical-align: middle;
+        }
+
+        /* --- شاشة تحميل ناعمة --- */
+        #loader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #fcf8f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+
+        .minimal-spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: #111111;
+            border-radius: 50%;
+            animation: spin 0.9s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* --- الهيكل الرئيسي --- */
+        #main-content {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* تأثير الـ Glassmorphism */
+        .glass-element {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        /* الهيدر */
+        header {
+            margin: 2rem 8% 0 8%;
+            padding: 1rem 3rem;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: auto;
+            position: relative;
+            z-index: 100;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        nav {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        nav a {
+            color: rgba(29, 29, 31, 0.85);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #000000;
+        }
+
+        .burger-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* --- قسم رأس الصفحة (المشروع) --- */
+        .case-study-hero {
+            padding: 5rem 8% 2rem 8%;
+            text-align: right;
+        }
+
+        .case-study-hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #000000;
+        }
+
+        .case-study-hero .project-tagline {
+            font-size: 1.25rem;
+            color: rgba(29, 29, 31, 0.7);
+            font-weight: 300;
+            line-height: 1.6;
+        }
+
+        /* --- تفاصيل وهيكل دراسة الحالة --- */
+        .case-study-container {
+            padding: 0 8% 6rem 8%;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        /* العمود الأيمن: الشروحات والإحصائيات */
+        .details-content {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .content-block h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            color: #000000;
+        }
+
+        .content-block p {
+            font-size: 1.1rem;
+            color: rgba(29, 29, 31, 0.85);
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        /* شبكة الإحصائيات والأرقام */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .metric-card {
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .metric-card .material-symbols-rounded {
+            font-size: 28px;
+            color: rgba(29, 29, 31, 0.6);
+            margin-bottom: 0.2rem;
+        }
+
+        .metric-number {
+            font-size: 2.3rem;
+            font-weight: 700;
+            color: #1d1d1f;
+        }
+
+        .metric-label {
+            font-size: 0.95rem;
+            color: rgba(29, 29, 31, 0.65);
+            font-weight: 400;
+        }
+
+        /* معرض الصور التخيلي الزجاجي */
+        .project-gallery {
+            width: 100%;
+            height: 380px;
+            border-radius: 28px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-placeholder {
+            font-size: 100px;
+            color: rgba(0,0,0,0.03);
+        }
+
+        /* العمود الأيسر: بطاقة البيانات الجانبية */
+        .project-meta-sidebar {
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.8rem;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .sidebar-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #000000;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding-bottom: 0.8rem;
+        }
+
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .meta-label {
+            font-size: 0.9rem;
+            color: rgba(29, 29, 31, 0.55);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .meta-label .material-symbols-rounded {
+            font-size: 20px;
+            color: rgba(29, 29, 31, 0.6);
+        }
+
+        .meta-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1d1d1f;
+            padding-right: 28px; /* محاذاة النص مع الأيقونة العلوية */
+        }
+
+        /* زر زيارة الموقع الحي */
+        .live-link-btn {
+            background: #1d1d1f;
+            color: #fcf8f2;
+            padding: 1rem;
+            border-radius: 50px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s, transform 0.3s;
+            margin-top: 0.5rem;
+        }
+
+        .live-link-btn:hover {
+            background: #000000;
+            transform: translateY(-2px);
+        }
+
+        .live-link-btn .material-symbols-rounded {
+            color: #fcf8f2;
+            font-size: 20px;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .live-link-btn:hover .material-symbols-rounded {
+            animation: arrowEffect 0.5s forwards;
+        }
+
+        @keyframes arrowEffect {
+            0% { transform: translateX(0); opacity: 1; }
+            49% { transform: translateX(15px); opacity: 0; }
+            50% { transform: translateX(-15px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        /* --- الفوتر --- */
+        footer {
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 5rem 8% 2rem 8%;
+            margin-top: auto;
+            width: 100%;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-brand {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        @media (min-width: 768px) {
+            .footer-grid {
+                grid-template-columns: 2fr repeat(3, 1fr);
+            }
+            .footer-brand {
+                grid-column: auto;
+                text-align: right;
+                margin-bottom: 0;
+            }
+        }
+
+        .footer-brand h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #000000;
+        }
+
+        .footer-brand p {
+            font-size: 1rem;
+            color: rgba(29, 29, 31, 0.7);
+            line-height: 1.7;
+            max-width: 350px;
+            margin: 0 auto;
+        }
+
+        .footer-links h4 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 1.8rem;
+            color: #000000;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-links h4::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            right: 0;
+            width: 30px;
+            height: 2px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 2px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: rgba(29, 29, 31, 0.8);
+            font-size: 1rem;
+            transition: color 0.3s;
+            display: inline-block;
+        }
+
+        .footer-links a:hover {
+            color: #000000;
+            transform: translateX(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+            padding-top: 2.5rem;
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            font-size: 0.95rem;
+            color: rgba(29, 29, 31, 0.6);
+            font-weight: 300;
+        }
+
+        body.is-loaded #loader-container {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        body.is-loaded #main-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- التجاوب مع الموبايل --- */
+        @media (max-width: 991px) {
+            header {
+                margin: 1.5rem 4% 0 4%;
+                padding: 1rem 2rem;
+            }
+            .case-study-hero, .case-study-container {
+                padding-left: 4%;
+                padding-right: 4%;
+            }
+            .case-study-container {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+            .project-meta-sidebar {
+                position: static;
+            }
+            footer {
+                padding: 4rem 4% 2rem 4%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem 1.5rem;
+                margin-top: 1rem;
+                border-radius: 16px;
+            }
+
+            .burger-menu-btn {
+                display: block;
+            }
+
+            nav {
+                position: absolute;
+                top: calc(100% + 10px);
+                left: 0;
+                right: 0;
+                background: rgba(252, 248, 242, 0.85);
+                backdrop-filter: blur(20px) saturate(180%);
+                -webkit-backdrop-filter: blur(20px) saturate(180%);
+                border: 1px solid rgba(255, 255, 255, 0.4);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+                border-radius: 16px;
+                padding: 2rem;
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+                opacity: 0;
+                transform: translateY(-15px);
+                visibility: hidden;
+                transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+            }
+
+            nav.mobile-active {
+                opacity: 1;
+                transform: translateY(0);
+                visibility: visible;
+            }
+
+            nav a {
+                font-size: 1.1rem;
+                display: block;
+                padding: 5px 0;
+            }
+
+            .case-study-hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .case-study-hero .project-tagline {
+                font-size: 1.1rem;
+            }
+
+            .content-block h2 {
+                font-size: 1.5rem;
+            }
+
+            .project-gallery {
+                height: 250px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .footer-links h4::after {
+                right: 50%;
+                transform: translateX(50%);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شاشة التحميل الناعمة -->
+    <div id="loader-container">
+        <div class="minimal-spinner"></div>
+    </div>
+
+    <!-- الهيكل الرئيسي للموقع -->
+    <div id="main-content">
+        
+        <!-- الهيدر الزجاجي الموحد -->
+        <header class="glass-element">
+            <div class="logo-text">مزيج</div>
+            
+            <button class="burger-menu-btn" id="burger-btn" aria-label="قائمة التنقل">
+                <span class="material-symbols-rounded" id="burger-icon">menu</span>
+            </button>
+
+            <nav id="nav-menu">
+                <a href="index.html">الرئيسية</a>
+                <a href="projects.html" class="active">مشاريعنا</a>
+                <a href="team.html">الفريق</a>
+                <a href="index.html#faq">الأسئلة الشائعة</a>
+                <a href="contact.html">اتصل بنا</a>
+            </nav>
+        </header>
+
+        <!-- قسم رأس دراسة الحالة -->
+        <section class="case-study-hero">
+            <h1>Smart Store تطبيق</h1>
+            <div class="project-tagline">ابتكار خاص بنا لتصميم برنامج على الهواتف لمساعدة اصاحب المتاجر بالتعامل مع الزبائن</div>
+        </section>
+
+        <!-- الحاوية الأساسية المنقسمة لعمودين -->
+        <section class="case-study-container">
+            
+            <!-- العمود الأيمن: الشروحات المتسلسلة والإحصائيات -->
+            <div class="details-content">
+                
+                <!-- معرض العرض العلوي للمشروع -->
+                <div class="project-gallery glass-element">
+                    <span class="material-symbols-rounded gallery-placeholder">dashboard</span>
+                </div>
+
+                <!-- بلوك 1: التحدي والهدف -->
+                <div class="content-block">
+                    <h2>التحدي والمشكلة</h2>
+                    <p>رأى فريق مزيج أن المحلات التجارية كـ السوبر ماركت مثلاً، يتعامل بصعوبة مع العميل إذ يريد البحث عن تواجد منتج لديه في المتجر ويدور على سعر هذا المنتج ويقوم بتحديثه يومياً</p>
+                </div>
+
+                <!-- بلوك 2: الحل الإبداعي -->
+                <div class="content-block">
+                    <h2>الحل الإبداعي والعمل المنجز</h2>
+                    <p>استطعنا تصميم تطبيق يساعد جميع ملاك المتاجر بحساب الاغراض عن طريق كاميرا حية في الهاتف تلتقط الباركود وتعطي السعر الذي قام بتحديثه ، وتريه كم هناك من مخوزن في المتجر من المنتج<br>
+					وبتصميم يدعم الوضع الداكن والفاتح المناسب لعيون الجميع، وباحصائيات كـ متابعة اليوم الاكثر مبيعا  وأوقات الذورة التي يباع فيها اكثر شيء وايضاً احصائيات عامة للمربح والصافي اليومي<br>
+					ومع سجلات لجميع الفواتير وامكانية الرجوع إليها ومميزة الاستعلام عن سعر لمسح باركود غرض معين لمعرفة سعره في المتجر في حال الزبون قام بالسؤال عنه<br>
+					ومميزة اضافة العروض واسترجاع المنتجات والحماية والخصوصية في حال فتحت الاتصال عبر الشبكة مع العمال الذين يعملون في المتجر مع التاجر<br>
+					وميزة جرد المتجر لجرد كل المنتجات والاكثر مبيعاً والاقل مبيعاً والفارغة من المتجر وايضاً مميزة الألة الحاسبة المدموجة مع التطبيق والمسودة<br>
+					التي تسمح لمالك المتجر أن يدون عليها مايريد من أرقام اشخاص او ديون او طلبات تمت عن طريق الهاتف مثلاً.. وبكل سهولة يعمل التطبيق على أجهزة الأندرويد فقط</p>
+                </div>
+
+                <!-- بلوك 3: الإحصائيات المعتمدة (Metrics مع أيقونات برمجية) -->
+                <div class="content-block">
+                    <h2>إحصائيات ونتائج المشروع</h2>
+                    <div class="metrics-grid">
+                        
+                        <div class="metric-card glass-element">
+                            <span class="material-symbols-rounded">speed</span>
+                            <div class="metric-number">14 يوم</div>
+                            <div class="metric-label">مدة التنفيذ</div>
+                        </div>
+
+                        <div class="metric-card glass-element">
+                            <span class="material-symbols-rounded">trending_up</span>
+                            <div class="metric-number">+100%</div>
+                            <div class="metric-label">الفائدة</div>
+                        </div>
+
+                        <div class="metric-card glass-element">
+                            <span class="material-symbols-rounded">star</span>
+                            <div class="metric-number">0.0</div>
+                            <div class="metric-label">تقييم رضا العميل النهائي (لم يباع)</div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- العمود الأيسر: بطاقة البيانات والمواصفات الجانبية الفاخرة (بدون إيموجيات) -->
+            <aside class="project-meta-sidebar glass-element">
+                <div class="sidebar-title">مخطط المشروع</div>
+                
+                <!-- بيان 1: العميل -->
+                <div class="meta-item">
+                    <div class="meta-label">
+                        <span class="material-symbols-rounded">business</span>
+                        العميل
+                    </div>
+                    <div class="meta-value">ستوديو مزيج</div>
+                </div>
+
+                <!-- بيان 2: الخدمة -->
+                <div class="meta-item">
+                    <div class="meta-label">
+                        <span class="material-symbols-rounded">design_services</span>
+                        الخدمة والتخصص
+                    </div>
+                    <div class="meta-value">تطوير تطبيق لأجهزة الأندرويد</div>
+                </div>
+
+                <!-- بيان 3: التاريخ -->
+                <div class="meta-item">
+                    <div class="meta-label">
+                        <span class="material-symbols-rounded">calendar_month</span>
+                        تاريخ التنفيذ
+                    </div>
+                    <div class="meta-value">2026/5</div>
+                </div>
+
+                <!-- بيان 4: طاقم العمل -->
+                <div class="meta-item">
+                    <div class="meta-label">
+                        <span class="material-symbols-rounded">groups</span>
+                        طاقم العمل
+                    </div>
+                    <div class="meta-value">مطور عدد (1)</div>
+                </div>
+
+                <!-- بيان 5: التكلفة الإجمالية -->
+                <div class="meta-item">
+                    <div class="meta-label">
+                        <span class="material-symbols-rounded">payments</span>
+                        تكلفة المشروع الإجمالية
+                    </div>
+                    <div class="meta-value">60 USD</div>
+                </div>
+
+                <!-- زر المعاينة التفاعلي -->
+                <a href="project-2-buy.html" class="live-link-btn">
+                    شراء التطبيق
+                    <span class="material-symbols-rounded">arrow_forward</span>
+                </a>
+            </aside>
+
+        </section>
+
+        <!-- الفوتر الزجاجي الموحد -->
+        <footer class="glass-element">
+            <div class="footer-container">
+                <div class="footer-grid">
+                    <div class="footer-brand">
+                        <h3>مزيج</h3>
+                        <p>نجمع بين دقة الأداء وجمال التصميم لخلق تجارب رقمية لا تُنسى.</p>
+                    </div>
+                    <div class="footer-links">
+                        <h4>روابط سريعة</h4>
+                        <ul>
+                            <li><a href="index.html">الرئيسية</a></li>
+                            <li><a href="projects.html">مشاريعنا</a></li>
+                            <li><a href="index.html#faq">الأسئلة الشائعة</a></li>
+                            <li><a href="contact.html">اتصل بنا</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-links">
+                        <h4>الخدمات</h4>
+                        <ul>
+                            <li><a href="webs.html">تطوير المواقع</a></li>
+                            <li><a href="apps.html">تطبيقات الجوال</a></li>
+                            <li><a href="design.html">التصميم الرقمي</a></li>
+                            <li><a href="partner.html">برنامج شركاء مزيج</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-links">
+                        <h4>تابعنا</h4>
+                        <ul>
+                            <li><a href="https://www.instagram.com/mazeej.studio/">إنستجرام</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2026 - جميع الحقوق محفوظة لدى ستوديو مزيج</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // شاشة التحميل الناعمة
+        function hideLoader() {
+            document.body.classList.add('is-loaded');
+        }
+        window.addEventListener('load', () => { setTimeout(hideLoader, 1000); });
+        setTimeout(hideLoader, 2500);
+
+        // قائمة البرجر للهواتف الذكية
+        const burgerBtn = document.getElementById('burger-btn');
+        const burgerIcon = document.getElementById('burger-icon');
+        const navMenu = document.getElementById('nav-menu');
+        const navLinks = navMenu.querySelectorAll('a');
+
+        burgerBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = navMenu.classList.toggle('mobile-active');
+            burgerIcon.textContent = isOpen ? 'close' : 'menu';
+        });
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('mobile-active');
+                burgerIcon.textContent = 'menu';
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && !burgerBtn.contains(e.target)) {
+                navMenu.classList.remove('mobile-active');
+                burgerIcon.textContent = 'menu';
+            }
+        });
+    </script>
+</body>
+</html>
