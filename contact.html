@@ -3,14 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مزيج | اتصل بنا</title>
+    <title>Mazeej Studio - تواصل معنا</title>
     
-    <!-- خط IBM Plex Sans Arabic -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght=300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- أيقونات جوجل الدائرية الموحدة -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
     <style>
@@ -25,9 +23,11 @@
         body, html {
             width: 100%;
             min-height: 100vh;
+            overflow-x: hidden;
             background-color: #fcf8f2;
             color: #1d1d1f;
-            display: block;
+            display: flex;
+            flex-direction: column;
         }
 
         .material-symbols-rounded {
@@ -74,73 +74,75 @@
             opacity: 0;
             transform: translateY(15px);
             transition: opacity 0.8s ease, transform 0.8s ease;
-            display: block;
-            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         body.is-loaded #loader-container { opacity: 0; visibility: hidden; }
         body.is-loaded #main-content { opacity: 1; transform: translateY(0); }
 
         .glass-element {
-            background: rgba(255, 255, 255, 0.45);
-            backdrop-filter: blur(25px) saturate(190%);
-            -webkit-backdrop-filter: blur(25px) saturate(190%);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03);
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
         }
 
-        /* الهيدر العريض المتناسق */
+        /* الهيدر الموحد والمطابق لصفحتك الرئيسية تماماً */
         header {
-            margin: 2rem auto;
-            max-width: 1400px;
-            width: 90%;
-            padding: 1.2rem 3.5rem;
-            border-radius: 24px;
-            display: block;
+            margin: 2rem 8% 0 8%;
+            padding: 1rem 3rem;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: auto;
             position: relative;
             z-index: 100;
         }
 
-        .header-table {
-            width: 100%;
-            display: table;
-        }
-
-        .header-cell {
-            display: table-cell;
-            vertical-align: middle;
-        }
-
         .logo-text {
-            font-size: 1.9rem;
+            font-size: 1.8rem;
             font-weight: 700;
-            color: #000000;
+            letter-spacing: -0.5px;
+            color: #1d1d1f;
             text-decoration: none;
         }
 
         nav {
-            text-align: left;
+            display: flex;
+            gap: 2.5rem;
         }
 
         nav a {
-            color: rgba(29, 29, 31, 0.8);
+            color: rgba(29, 29, 31, 0.85);
             text-decoration: none;
-            font-size: 1.05rem;
+            font-size: 1rem;
             font-weight: 500;
-            margin-right: 2.5rem;
+            transition: color 0.3s, transform 0.3s;
             display: inline-block;
-            transition: color 0.3s, transform 0.2s;
         }
 
-        nav a:hover { 
-            color: #000000; 
-            transform: translateY(-1px);
+        nav a:hover, nav a.active {
+            color: #000000;
+            font-weight: 600;
         }
 
-        /* --- حاوية الصفحة العريضة الفخمة --- */
+        /* زر البرجر للموبايل */
+        .burger-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        /* --- حاوية المحتوى العريضة المتجاوبة --- */
         .page-container {
             max-width: 1400px;
-            width: 90%;
+            width: 84%;
             margin: 4rem auto 6rem auto;
             display: table;
         }
@@ -149,12 +151,13 @@
             display: table-row;
         }
 
-        /* العمود الأيمن: النص والترحيب الممتد */
+        /* العمود الأيمن: النص والترحيب الفخم الفسيح */
         .info-column {
             display: table-cell;
             width: 45%;
             vertical-align: middle;
             padding-left: 5rem;
+            text-align: right;
         }
 
         .info-column h1 {
@@ -182,10 +185,10 @@
         }
 
         .direct-contact-item span {
-            margin-left: 10px;
+            margin-right: 10px;
         }
 
-        /* العمود الأيسر: الاستمارة الكبيرة المريحة للكتابة */
+        /* العمود الأيسر: بطاقة الاستمارة الزجاجية */
         .form-column {
             display: table-cell;
             width: 55%;
@@ -211,23 +214,8 @@
             margin-bottom: 1rem;
         }
 
-        .input-wrapper {
-            position: relative;
-            width: 100%;
-        }
-
-        .input-wrapper .material-symbols-rounded {
-            position: absolute;
-            right: 24px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: rgba(29, 29, 31, 0.35);
-            font-size: 24px;
-        }
-
         .contact-input, .contact-textarea {
             width: 100%;
-            border-radius: 18px;
             border: 1px solid rgba(0, 0, 0, 0.06);
             background: rgba(255, 255, 255, 0.5);
             font-size: 1.1rem;
@@ -237,24 +225,16 @@
         }
 
         .contact-input {
-            padding: 1.2rem 4rem 1.2rem 1.5rem;
+            padding: 1.2rem 2rem;
             border-radius: 50px;
         }
 
         .contact-textarea {
-            padding: 1.5rem 4rem 1.5rem 1.5rem;
+            padding: 1.5rem 2rem;
             border-radius: 24px;
-            min-height: 220px; /* مساحة فخمة وكبيرة للكتابة */
+            min-height: 220px;
             resize: vertical;
             line-height: 1.6;
-        }
-
-        .textarea-wrapper .material-symbols-rounded {
-            position: absolute;
-            right: 24px;
-            top: 24px;
-            color: rgba(29, 29, 31, 0.35);
-            font-size: 24px;
         }
 
         .contact-input:focus, .contact-textarea:focus {
@@ -263,7 +243,7 @@
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
         }
 
-        /* زر الإرسال العريض */
+        /* زر الإرسال */
         .submit-btn {
             width: 100%;
             background: #1d1d1f;
@@ -299,104 +279,112 @@
         }
 
         .submit-btn:hover .material-symbols-rounded {
-            transform: translateX(-5px);
+            animation: arrowEffect 0.5s forwards;
         }
 
-        /* --- الفوتر الفخم الموحد --- */
+        @keyframes arrowEffect {
+            0% { transform: translateX(0); opacity: 1; }
+            49% { transform: translateX(-20px); opacity: 0; }
+            50% { transform: translateX(20px); opacity: 0; }
+            100% { transform: translateX(0); opacity: 1; }
+        }
+
+        /* --- الفوتر الفخم الموحد الجريء --- */
         footer {
-            background-color: rgba(255, 255, 255, 0.25);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255, 255, 255, 0.4);
-            padding: 5rem 0 3rem 0;
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 5rem 8% 2rem 8%;
+            margin-top: auto;
             width: 100%;
         }
 
         .footer-container {
-            max-width: 1400px;
-            width: 90%;
+            max-width: 1200px;
             margin: 0 auto;
+            width: 100%;
         }
 
-        .footer-table {
-            width: 100%;
-            display: table;
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
             margin-bottom: 4rem;
         }
 
-        .footer-col-brand {
-            display: table-cell;
-            width: 40%;
-            vertical-align: top;
-            padding-left: 4rem;
+        .footer-brand {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 2rem;
         }
 
-        .footer-col-links {
-            display: table-cell;
-            width: 20%;
-            vertical-align: top;
+        @media (min-width: 768px) {
+            .footer-grid { grid-template-columns: 2fr repeat(3, 1fr); }
+            .footer-brand { grid-column: auto; text-align: right; margin-bottom: 0; }
         }
 
-        .footer-col-brand h3 { font-size: 2.2rem; font-weight: 700; color: #000000; margin-bottom: 1.2rem; }
-        .footer-col-brand p { font-size: 1.05rem; color: rgba(29, 29, 31, 0.65); line-height: 1.7; max-width: 380px; }
+        .footer-brand h3 { font-size: 2rem; font-weight: 700; color: #000000; margin-bottom: 1rem; }
+        .footer-brand p { font-size: 1rem; color: rgba(29, 29, 31, 0.7); line-height: 1.7; max-width: 350px; margin: 0 auto; }
+        @media (min-width: 768px) { .footer-brand p { margin: 0; } }
+
+        .footer-links h4 { font-size: 1.15rem; font-weight: 600; margin-bottom: 1.8rem; color: #000000; position: relative; display: inline-block; }
+        .footer-links h4::after { content: ''; position: absolute; bottom: -8px; right: 0; width: 30px; height: 2px; background-color: rgba(0, 0, 0, 0.1); border-radius: 2px; }
+        .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 1.2rem; }
+        .footer-links a { text-decoration: none; color: rgba(29, 29, 31, 0.8); font-size: 1rem; transition: color 0.3s, transform 0.3s; display: inline-block; }
+        .footer-links a:hover { color: #000000; transform: translateX(-3px); }
         
-        .footer-col-links h4 { font-size: 1.2rem; font-weight: 600; margin-bottom: 1.8rem; color: #000000; }
-        .footer-col-links ul { list-style: none; }
-        .footer-col-links li { margin-bottom: 1.2rem; }
-        .footer-col-links a { text-decoration: none; color: rgba(29, 29, 31, 0.75); font-size: 1.05rem; transition: color 0.3s; }
-        .footer-col-links a:hover { color: #000000; }
-        
-        .footer-bottom { 
-            border-top: 1px solid rgba(0, 0, 0, 0.05); 
-            padding-top: 2.5rem; 
-            text-align: center; 
-        }
-        .footer-bottom p { font-size: 1rem; color: rgba(29, 29, 31, 0.5); font-weight: 300; }
+        .footer-bottom { border-top: 1px solid rgba(0, 0, 0, 0.05); padding-top: 2.5rem; text-align: center; }
+        .footer-bottom p { font-size: 0.95rem; color: rgba(29, 29, 31, 0.6); font-weight: 300; }
 
-        /* --- التجاوب مع شاشات الموبايل والتابلت تزامناً مع الأبعاد --- */
+        /* ==========================================================================
+           قواعد الشاشات وتجاوب الموبايل الحاسم والآمن
+           ========================================================================== */
         @media (max-width: 1024px) {
-            .info-column, .form-column {
-                display: block;
-                width: 100%;
-                padding-left: 0;
-            }
-            .info-column {
-                text-align: center;
-                margin-bottom: 3rem;
-            }
+            .page-container { display: block; width: 92%; }
+            .page-row { display: block; }
+            .info-column, .form-column { display: block; width: 100%; padding-left: 0; }
+            .info-column { text-align: center; margin-bottom: 4rem; }
             .info-column h1 { font-size: 3rem; }
             .contact-card { padding: 3rem 2rem; }
-            
-            .footer-table, .footer-col-brand, .footer-col-links {
-                display: block;
-                width: 100%;
-                padding-left: 0;
-                text-align: center;
-                margin-bottom: 2rem;
-            }
+        }
+
+        @media (max-width: 991px) {
+            header { margin: 1.5rem 4% 0 4%; padding: 1rem 2rem; }
+            footer { padding: 4rem 4% 2rem 4%; }
         }
 
         @media (max-width: 768px) {
-            header { padding: 1.2rem 2rem; margin-top: 1rem; }
-            nav { display: none; }
+            header { padding: 1rem 1.5rem; margin-top: 1rem; border-radius: 16px; }
+            .burger-menu-btn { display: block; }
+            
+            nav {
+                position: absolute; top: calc(100% + 10px); left: 0; right: 0;
+                background: rgba(252, 248, 242, 0.85); backdrop-filter: blur(20px) saturate(180%);
+                -webkit-backdrop-filter: blur(20px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.4);
+                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08); border-radius: 16px; padding: 2rem;
+                flex-direction: column; gap: 1.5rem; text-align: center; opacity: 0; transform: translateY(-15px);
+                visibility: hidden; transition: all 0.3s ease;
+            }
+            nav.mobile-active { opacity: 1; transform: translateY(0); visibility: visible; }
+            nav a { display: block; margin: 0; font-size: 1.1rem; }
             .info-column h1 { font-size: 2.4rem; }
-            .contact-card { padding: 2rem 1.5rem; }
+            .contact-card { padding: 2.5rem 1.5rem; }
+            .footer-grid { grid-template-columns: 1fr; gap: 2rem; text-align: center; }
+            .footer-links h4::after { right: 50%; transform: translateX(50%); }
         }
     </style>
 </head>
 <body>
 
-    <!-- شاشة التحميل الذكية -->
     <div id="loader-container">
         <div class="minimal-spinner"></div>
     </div>
 
-    <!-- الهيكل الرئيسي للموقع -->
     <div id="main-content">
         
-        <!-- الهيدر الزجاجي الفخم العريض -->
         <header class="glass-element">
-            <div class="logo-text">مزيج</div>
+            <a href="index.html" class="logo-text">مزيج</a>
             
             <button class="burger-menu-btn" id="burger-btn" aria-label="قائمة التنقل">
                 <span class="material-symbols-rounded" id="burger-icon">menu</span>
@@ -404,56 +392,49 @@
 
             <nav id="nav-menu">
                 <a href="index.html">الرئيسية</a>
-                <a href="projects.html" class="active">مشاريعنا</a>
-                <a href="team.html">الفريق</a>
-                <a href="index.html#faq">الأسئلة الشائعة</a>
-                <a href="contact.html">اتصل بنا</a>
+                <a href="projects.html">مشاريعنا</a>
+                <a href="team.html">صُنّاع المزيج</a>
+                <a href="partner-hub.html">الشركاء</a>
+                <a href="contact.html" class="active">اتصل بنا</a>
             </nav>
         </header>
 
-        <!-- حاوية الصفحة العريضة المقسمة بذكاء هندسي عالي -->
         <main class="page-container">
             <div class="page-row">
                 
-                <!-- الطرف الأيمن: فخامة المساحة الترحيبية -->
                 <div class="info-column">
                     <h1>دعنا نصنع<br>شيئاً عظيماً.</h1>
                     <p>مشروعك القادم يستحق شريكاً يفهم التفاصيل. شاركنا عنوان فكرتك وما يدور في ذهنك من تفاصيل وسنقوم بالرد عليك مباشرة.</p>
                     
                     <div class="direct-contact-item">
                         <span class="material-symbols-rounded" style="color: #000000;">mail</span>
-                        <span>تواصل معنا عبر رسالة إلكترونية</span>
+                        <span>majedrora9@gmail.com</span>
                     </div>
                 </div>
 
-                <!-- الطرف الأيسر: الاستمارة العريضة الفاخرة المريحة -->
                 <div class="form-column">
                     <div class="contact-card glass-element">
                         
                         <form action="https://api.web3forms.com/submit" method="POST" id="contact-form">
                             
-                            <!-- مفتاح الوصول الآمن لبريدك الإلكتروني من Web3Forms -->
                             <input type="hidden" name="access_key" value="e9146d85-be70-4144-98a1-d53d0913c3e0">
                             <input type="hidden" name="subject" value="رسالة جديدة من نموذج اتصال موقع مزيج">
                             <input type="checkbox" name="botcheck" style="display: none;">
 
-                            <!-- الحقل الأول: العنوان -->
                             <div class="form-group">
-                                <label for="form-title" class="form-label"><span class="material-symbols-rounded">title</span> ما هو عنوان فكرتك أو طلبك؟</label>
+                                <label for="form-title" class="form-label">ما هو عنوان فكرتك أو طلبك؟</label>
                                 <div class="input-wrapper">
                                     <input type="text" id="form-title" name="العنوان" class="contact-input" placeholder="اكتب عنواناً موجزاً للمشروع..." required>
                                 </div>
                             </div>
 
-                            <!-- الحقل الثاني: الوصف الكبير -->
                             <div class="form-group">
-                                <label for="form-desc" class="form-label"><span class="material-symbols-rounded">description</span> اشرح لنا التفاصيل والوصف</label>
+                                <label for="form-desc" class="form-label">اشرح لنا التفاصيل والوصف</label>
                                 <div class="textarea-wrapper">
-                                    <textarea id="form-desc" name="الوصف والسرّد التفصيلي" class="contact-textarea" placeholder="تحدث بحرية عن فكرتك، متطلباتك، والخدمات التقنية التي تبحث عنها..." required></textarea>
+                                    <textarea id="form-desc" name="الوصف والسرّد التفصيلي" class="contact-textarea" placeholder="تحدث بحرية عن فكرتك، متمتطلباتك، والخدمات التقنية التي تبحث عنها..." required></textarea>
                                 </div>
                             </div>
 
-                            <!-- زر الإرسال الفخم العريض المتناسق -->
                             <button type="submit" class="submit-btn">
                                 <span class="submit-btn-inner">
                                     <span>إرسال الطلب مباشرة</span>
@@ -469,7 +450,6 @@
             </div>
         </main>
 
-        <!-- الفوتر الزجاجي الفخم الموحد لجميع الصفحات -->
         <footer class="glass-element">
             <div class="footer-container">
                 <div class="footer-grid">
@@ -489,10 +469,10 @@
                     <div class="footer-links">
                         <h4>الخدمات</h4>
                         <ul>
-                            <li><a href="webs.html">تطوير المواقع</a></li>
-                            <li><a href="apps.html">تطبيقات الجوال</a></li>
-                            <li><a href="design.html">التصميم الرقمي</a></li>
-                            <li><a href="partner.html">برنامج شركاء مزيج</a></li>
+                            <li><a href="#">تطوير المواقع</a></li>
+                            <li><a href="#">تطبيقات الجوال</a></li>
+                            <li><a href="#">التصميم الرقمي</a></li>
+                            <li><a href="#">برنامج شركاء مزيج</a></li>
                         </ul>
                     </div>
                     <div class="footer-links">
@@ -515,6 +495,32 @@
         function hideLoader() { document.body.classList.add('is-loaded'); }
         window.addEventListener('load', () => { setTimeout(hideLoader, 600); });
         setTimeout(hideLoader, 1500);
+
+        // تشغيل قائمة الموبايل والبرجر التفاعلية
+        const burgerBtn = document.getElementById('burger-btn');
+        const burgerIcon = document.getElementById('burger-icon');
+        const navMenu = document.getElementById('nav-menu');
+        const navLinks = navMenu.querySelectorAll('a');
+
+        burgerBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = navMenu.classList.toggle('mobile-active');
+            burgerIcon.textContent = isOpen ? 'close' : 'menu';
+        });
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('mobile-active');
+                burgerIcon.textContent = 'menu';
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!navMenu.contains(e.target) && !burgerBtn.contains(e.target)) {
+                navMenu.classList.remove('mobile-active');
+                burgerIcon.textContent = 'menu';
+            }
+        });
     </script>
 </body>
 </html>
